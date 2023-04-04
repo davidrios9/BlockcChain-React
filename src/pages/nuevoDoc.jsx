@@ -41,12 +41,12 @@ const NuevoDoc = (props) => {
     ]
 
     const [proceso, setProceso] = React.useState('Escoja un proceso');
-    const [lider, setLider] = React.useState('Escoja un lider aprobador');
+    const [lider, setLider] = React.useState('Escoja un líder aprobador');
     const [justificacion, setJustificacion] = React.useState('');
     const contextData = useContext(AppContext);
 
     const handleApplication = async () => {
-        if (proceso !== 'Escoja un proceso' && lider !== 'Escoja un lider aprobador' && justificacion !== '') {
+        if (proceso !== 'Escoja un proceso' && lider !== 'Escoja un líder aprobador' && justificacion !== '') {
 
             contextData.severity("success")
             contextData.text("Solicitud radicada");
@@ -65,12 +65,12 @@ const NuevoDoc = (props) => {
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={12} >
                 <Typography sx={{ typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Nuevo documento</Typography>
             </Grid>
-            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: 'primary.main', borderRadius: 1, m: 1 }}>
+            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1 }}>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>Usuario radicador:</Typography>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>jdoe</Typography>
 
             </Grid>
-            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: 'primary.main', borderRadius: 1, m: 1 }}>
+            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1 }}>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>Nombre radicador: </Typography>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>John Doe</Typography>
             </Grid>
@@ -99,7 +99,7 @@ const NuevoDoc = (props) => {
                     disablePortal
                     options={lideres}
                     sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Lider aprobador" />}
+                    renderInput={(params) => <TextField {...params} label="Líder aprobador" />}
                 />
             </Grid>
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={5} sx={{ width: '95vw', height: '10vh', m: 1 }}>
@@ -120,7 +120,7 @@ const NuevoDoc = (props) => {
             </Grid>
 
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={5} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" color="green" sx={{ backgroundColor: 'FCDB25' }}>
+                <Button variant="contained" color="green" sx={{ backgroundColor: 'FCDB25' }} >
                     <input type="file" />
                 </Button>
             </Grid>
