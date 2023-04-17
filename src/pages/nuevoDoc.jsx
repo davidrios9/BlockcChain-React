@@ -5,7 +5,7 @@ import { AppContext } from '../App.jsx';
 
 const NuevoDoc = (props) => {
 
-    // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+
     const procesos = [
         { label: 'T160268', name: 'Abrir Canal Corresponsales Bancarios' },
         { label: 'T160263', name: 'Abrir, cerrar, trasladar y fusionar canal sucursales' },
@@ -61,16 +61,16 @@ const NuevoDoc = (props) => {
     }
 
     return (
-        <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, mt: 3, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
+        <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={12} >
                 <Typography sx={{ typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Nuevo documento</Typography>
             </Grid>
-            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1 }}>
-                <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>Usuario radicador:</Typography>
-                <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>jdoe</Typography>
+            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1, paddingTop:'0!important' }}>
+                <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h6', lg: 'h6', color: 'white' } }}>Usuario radicador:</Typography>
+                <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h6', lg: 'h6', color: 'white' } }}>jdoe</Typography>
 
             </Grid>
-            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1 }}>
+            <Grid item xs={5} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1,  paddingTop:'0!important'}}>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>Nombre radicador: </Typography>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>John Doe</Typography>
             </Grid>

@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { createTheme, ThemeProvider, Snackbar, Alert } from '@mui/material';
+import { createTheme, ThemeProvider, Snackbar, Alert  } from '@mui/material';
 import { useState } from "react";
-import { AppBarTop } from './AppBar';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Solicitud from './pages/solicitud'
 import Home from './pages/home'
@@ -9,6 +8,8 @@ import NuevoDoc from './pages/nuevoDoc'
 import ActualizacionDoc from './pages/actualizacionDoc'
 import CambioNombreDoc from './pages/cambioNombreDoc'
 import EliminacionDoc from './pages/eliminacionDoc'
+import Procesos from './pages/procesos'
+import PersistentDrawerLeft from './AppDrawer';
 
 
 export const AppContext = React.createContext(null)
@@ -32,25 +33,28 @@ export function App() {
     setOpen(false);
   };
 
+
+
   return (
     <AppContext.Provider value={alert}>
       <ThemeProvider theme={theme}>
         <div className="App">
-          <AppBarTop></AppBarTop>
-          <Routes>
-            <Route exact path="POC-Procesos/" element={<Home />} />
-            <Route exact path="POC-Procesos/solicitud" element={<Solicitud />} />
-            <Route exact path="POC-Procesos/solicitud/nuevoDoc" element={<NuevoDoc />} />
-            <Route exact path="POC-Procesos/solicitud/actualizacionDoc" element={<ActualizacionDoc />} />
-            <Route exact path="POC-Procesos/solicitud/cambioNombreDoc" element={<CambioNombreDoc />} />
-            <Route exact path="POC-Procesos/solicitud/eliminacionDoc" element={<EliminacionDoc />} />
-            <Route exact path="*" element={<Navigate to='POC-Procesos/' />} />
-          </Routes>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={alertSeverity} sx={{ width: '100%' }}>
-              {alertText}
-            </Alert>
-          </Snackbar>
+          <PersistentDrawerLeft />
+            <Routes>
+              <Route exact path="POC-Procesos/" element={<Home />} />
+              <Route exact path="POC-Procesos/procesos" element={<Procesos/>} />
+              <Route exact path="POC-Procesos/procesos/solicitud" element={<Solicitud />} />
+              <Route exact path="POC-Procesos/procesos/solicitud/nuevoDoc" element={<NuevoDoc />} />
+              <Route exact path="POC-Procesos/procesos/solicitud/actualizacionDoc" element={<ActualizacionDoc />} />
+              <Route exact path="POC-Procesos/procesos/solicitud/cambioNombreDoc" element={<CambioNombreDoc />} />
+              <Route exact path="POC-Procesos/procesos/solicitud/eliminacionDoc" element={<EliminacionDoc />} />
+              <Route exact path="*" element={<Navigate to='POC-Procesos/' />} />
+            </Routes>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert onClose={handleClose} severity={alertSeverity} sx={{ width: '100%' }}>
+                {alertText}
+              </Alert>
+            </Snackbar>
         </div>
       </ThemeProvider>
     </AppContext.Provider>
@@ -79,7 +83,7 @@ const theme = createTheme({
       contrastText: '#FF8120',
     },
   },
-  
+
 });
 
 
