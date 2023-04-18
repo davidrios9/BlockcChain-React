@@ -137,7 +137,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" spacing={2}>
                                 <ListItemButton >
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Riesgos y Controles"} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Riesgos y Controles"} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                             </Stack>
@@ -146,7 +146,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" spacing={2}>
                                 <ListItemButton >
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Riesgos y Controles"} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Riesgos y Controles"} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                             </Stack>
@@ -155,7 +155,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" >
                                 <ListItemButton onClick={() => handleSubMenuOpen()}>
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Maestros"} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Maestros"} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                                 <Collapse in={openSubMenu}>
@@ -176,7 +176,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" spacing={2}>
                                 <ListItemButton >
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Otros Elementos Riesgo"} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Otros Elementos Riesgo"} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                             </Stack>
@@ -185,7 +185,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" spacing={2}>
                                 <ListItemButton >
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Administración riesgoss"} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Administración riesgoss"} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                             </Stack>
@@ -194,7 +194,7 @@ export default function PersistentDrawerLeft() {
                         <ListItem disablePadding sx={{ display: 'inherit' }}>
                             <Stack direction="column" spacing={2}>
                                 <ListItemButton >
-                                    <ListItemText sx={{ color: "neutral.main" }} primary={"Administración aplicativo    "} />
+                                    <ListItemText sx={{ color: "#FCDB25" }} primary={"Administración aplicativo    "} />
                                     <ExpandMoreIcon sx={{ color: "neutral.main", mr: 1, alignSelf: 'right' }} />
                                 </ListItemButton>
                             </Stack>
