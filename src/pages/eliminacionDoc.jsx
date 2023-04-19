@@ -134,6 +134,7 @@ const EliminacionDoc = (props) => {
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={10} sx={{ width: '95vw', height: '53vh', m: 1 }}>
                 
                 <DataGrid
+                //slots={{ toolbar: QuickSearchToolbar }}
                 rows={archivos}
                 columns={columns}
                 initialState={{
