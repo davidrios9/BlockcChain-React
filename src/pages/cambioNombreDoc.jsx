@@ -21,6 +21,7 @@ function QuickSearchToolbar() {
   );
 }
 
+<<<<<<< HEAD
 const CambioNombreDoc = (props) => {
   const procesos = [
     { label: "T160268", name: "Abrir Canal Corresponsales Bancarios" },
@@ -369,3 +370,6 @@ const CambioNombreDoc = (props) => {
 };
 
 export default CambioNombreDoc;
+=======
+export default CambioNombreDoc;
+>>>>>>> 1ed9a715e3c110868046a10bf8dbf07e259fa6c6
