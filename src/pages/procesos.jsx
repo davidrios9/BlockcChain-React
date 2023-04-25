@@ -6,10 +6,10 @@ import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 const columns = [
     { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'idProceso', headerName: 'ID Proceso', flex: 1  },
-    { field: 'nombre', headerName: 'Nombre', flex: 1  },
-    { field: 'compañia', headerName: 'Compañia',  flex: 1  },
-    { field: 'nivel', headerName: 'Nivel', type: 'number', flex: 1  },
+    { field: 'idProceso', headerName: 'ID Proceso', flex: 1 },
+    { field: 'nombre', headerName: 'Nombre', flex: 1 },
+    { field: 'compañia', headerName: 'Compañia', flex: 1 },
+    { field: 'nivel', headerName: 'Nivel', type: 'number', flex: 1 },
 ];
 
 const rows = [
@@ -45,7 +45,7 @@ const Procesos = (props) => {
     const [selected, setSelected] = React.useState([]);
 
     const gestionarDocumentos = () => {
-        navigate('solicitud');
+        navigate('solicitud', { state: { nombreProcesos: rows[selected['0']-1]['nombre'], idProceso: rows[selected['0']-1]['idProceso'] } });
     }
 
     return (
@@ -99,13 +99,13 @@ const Procesos = (props) => {
                 <Divider sx={{ borderBottomWidth: '0.3vh' }} />
             </Grid>
 
-            <Grid item xs={3} align='left' display={selected.length===1? 'flex': 'none'}>
+            <Grid item xs={3} align='left' display={selected.length === 1 ? 'flex' : 'none'}>
                 <Button variant="contained" onClick={() => gestionarDocumentos()} color="orange" sx={{ fontSize: '13px' }}>
                     Gestionar documentos
                 </Button>
             </Grid>
 
-            <Grid item xs={3} align='left' display={selected.length===1? 'flex': 'none'}>
+            <Grid item xs={3} align='left' display={selected.length === 1 ? 'flex' : 'none'}>
                 <Button variant="contained" onClick={null} color="orange" sx={{ fontSize: '13px' }}>
                     Ver / Editar
                 </Button>
@@ -133,7 +133,7 @@ const Procesos = (props) => {
                     checkboxSelection
                     autoHeight
                     slots={{ toolbar: QuickSearchToolbar }}
-                    onRowSelectionModelChange={(ids) => {setSelected(ids); }}
+                    onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
                 />
             </Grid>
