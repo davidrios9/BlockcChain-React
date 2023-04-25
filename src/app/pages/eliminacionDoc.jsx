@@ -1,7 +1,7 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import NuevoDoc from "./nuevoDoc.jsx";
-import { NavLink as ReactNav } from 'react-router-dom'
+import { NavLink as ReactNav } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import { useContext } from "react";
 import {
   Grid,
@@ -12,7 +12,7 @@ import {
   Table,
   Modal,
 } from "@mui/material";
-import { AppContext } from "../App.jsx";
+import { AppContext } from "../../App.jsx";
 import { Box } from "@mui/system";
 //import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import AddIcon from "@mui/icons-material/Add";
@@ -107,6 +107,8 @@ EditToolbar.propTypes = {
 const EliminacionDoc = (props) => {
   const [rows, setRows] = React.useState(archivos);
   const [rowModesModel, setRowModesModel] = React.useState({});
+  const { state } = useLocation();
+    const { nombreProcesos, idProceso } = state; // Read values passed on state
   const procesos = [
     { label: "T160268", name: "Abrir Canal Corresponsales Bancarios" },
     {
@@ -134,19 +136,19 @@ const EliminacionDoc = (props) => {
   const [show, setShow] = React.useState(false);
   const handleClose = () => setShow(false);
 
-  const [proceso, setProceso] = React.useState("Escoja un proceso");
   const contextData = useContext(AppContext);
 
   const handleApplication = async () => {
-    if (proceso !== "Escoja un proceso") {
-      contextData.severity("success");
+    contextData.severity("success");
       contextData.text("Solicitud radicada");
       contextData.show(true);
+    /*if (nombreProcesos !== "Escoja un proceso") {
+      
     } else {
       contextData.severity("warning");
       contextData.text("Llene todos los campos");
       contextData.show(true);
-    }
+    }*/
   };
 
   const handleRowEditStart = (params, event) => {
@@ -294,7 +296,7 @@ const EliminacionDoc = (props) => {
         </Grid>
         <Grid
           item
-          xs={5}
+          xs={2}
           sx={{
             width: "95vw",
             height: "10vh",
@@ -332,7 +334,7 @@ const EliminacionDoc = (props) => {
         </Grid>
         <Grid
           item
-          xs={5}
+          xs={2}
           sx={{
             width: "95vw",
             height: "10vh",
@@ -352,7 +354,7 @@ const EliminacionDoc = (props) => {
               },
             }}
           >
-            Nombre radicador:{" "}
+            Nombre Usuario:
           </Typography>
           <Typography
             sx={{
@@ -368,41 +370,84 @@ const EliminacionDoc = (props) => {
             Erika Salinas
           </Typography>
         </Grid>
-
         <Grid
           item
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          xs={5}
-          sx={{ width: "95vw", height: "10vh", m: 1 }}
-        >
-          <Autocomplete
-            onChange={(event, newValue) => {
-              setProceso(newValue["name"]);
-            }}
-            disablePortal
-            options={procesos}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Codigo de proceso" />
-            )}
-          />
-        </Grid>
-        <Grid
-          item
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          xs={5}
-          sx={{ width: "95vw", height: "10vh", m: 1 }}
+          xs={2}
+          sx={{
+            width: "95vw",
+            height: "10vh",
+            backgroundColor: "#2A2625",
+            borderRadius: 1,
+            m: 1,
+          }}
         >
           <Typography
-            sx={{ typography: { xs: "p", sm: "p", md: "h5", lg: "h5", mt: 3 } }}
+            sx={{
+              typography: {
+                xs: "p",
+                sm: "p",
+                md: "h5",
+                lg: "h5",
+                color: "white",
+              },
+            }}
           >
-            {proceso}
+            Id Proceso:
+          </Typography>
+          <Typography
+            sx={{
+              typography: {
+                xs: "p",
+                sm: "p",
+                md: "h5",
+                lg: "h5",
+                color: "white",
+              },
+            }}
+          >
+            {idProceso} 
           </Typography>
         </Grid>
+        <Grid
+          item
+          xs={2}
+          sx={{
+            width: "95vw",
+            height: "10vh",
+            backgroundColor: "#2A2625",
+            borderRadius: 1,
+            m: 1,
+          }}
+        >
+          <Typography
+            sx={{
+              typography: {
+                xs: "p",
+                sm: "p",
+                md: "h5",
+                lg: "h5",
+                color: "white",
+              },
+            }}
+          >
+            Nombre Proceso:
+          </Typography>
+          <Typography
+            sx={{
+              typography: {
+                xs: "p",
+                sm: "p",
+                md: "h5",
+                lg: "h5",
+                color: "white",
+              },
+            }}
+          >
+            {nombreProcesos}
+          </Typography>
+        </Grid>
+
+        
 
         <Grid
           item
