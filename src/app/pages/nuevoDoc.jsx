@@ -61,13 +61,11 @@ const NuevoDoc = (props) => {
             data.append('reviewObservations', "N/A")
             data.append('leadObservations', 'Documentos importantes para fin de año')
             data.append('file', files[0])
-        
-            fetch('https://reqbin.com/echo/post/json', {
+
+            
+
+            fetch('https://644842ba50c25337443c1e84.mockapi.io/newDoc', {
                 method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
                 body: data
             })
                 .then(response => response.json())
@@ -172,6 +170,7 @@ const NuevoDoc = (props) => {
                     options={lideres}
                     sx={{ width: 300 }}
                     renderInput={(params) => <TextField {...params} label="Líder aprobador" />}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
                 />
             </Grid>
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={5} sx={{ width: '95vw', height: '10vh', m: 1 }}>
@@ -190,6 +189,7 @@ const NuevoDoc = (props) => {
                             options={documentos}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Tipo de documento" />}
+                            isOptionEqualToValue={(option, value) => option.id === value.id}
                         />
                     </Grid>
 
