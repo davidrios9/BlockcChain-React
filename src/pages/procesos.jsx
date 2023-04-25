@@ -5,11 +5,11 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'idProceso', headerName: 'ID Proceso', width: 150 },
-    { field: 'nombre', headerName: 'Nombre', width: 320 },
-    { field: 'compañia', headerName: 'Compañia', width: 320, },
-    { field: 'nivel', headerName: 'Nivel', type: 'number', width: 90, },
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'idProceso', headerName: 'ID Proceso', flex: 1  },
+    { field: 'nombre', headerName: 'Nombre', flex: 1  },
+    { field: 'compañia', headerName: 'Compañia',  flex: 1  },
+    { field: 'nivel', headerName: 'Nivel', type: 'number', flex: 1  },
 ];
 
 const rows = [
@@ -131,6 +131,7 @@ const Procesos = (props) => {
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                     checkboxSelection
+                    autoHeight
                     slots={{ toolbar: QuickSearchToolbar }}
                     onRowSelectionModelChange={(ids) => {setSelected(ids); }}
 
