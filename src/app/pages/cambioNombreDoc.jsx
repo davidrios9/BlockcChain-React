@@ -9,7 +9,7 @@ import {
   Modal,
 } from "@mui/material";
 
-import { AppContext } from "../App.jsx";
+import { AppContext } from "../../App.jsx";
 import { Box } from "@mui/system";
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 

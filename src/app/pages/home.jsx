@@ -1,5 +1,5 @@
 import {  Typography, Grid, Box  } from "@mui/material"
-import POClogo from '../assets/Logo POC.png'
+import POClogo from '../../assets/Logo POC.png'
 
 const Home = (props) => {
     return (

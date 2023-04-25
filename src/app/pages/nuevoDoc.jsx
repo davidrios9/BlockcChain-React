@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from "react";
 import { Grid, Typography, TextField, Autocomplete, Button } from "@mui/material";
-import { AppContext } from '../App.jsx';
+import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';

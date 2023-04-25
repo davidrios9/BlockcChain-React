@@ -2,13 +2,13 @@ import * as React from 'react';
 import { createTheme, ThemeProvider, Snackbar, Alert  } from '@mui/material';
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Solicitud from './pages/solicitud'
-import Home from './pages/home'
-import NuevoDoc from './pages/nuevoDoc'
-import ActualizacionDoc from './pages/actualizacionDoc'
-import CambioNombreDoc from './pages/cambioNombreDoc'
-import EliminacionDoc from './pages/eliminacionDoc'
-import Procesos from './pages/procesos'
+import Solicitud from './app/pages/solicitud'
+import Home from './app/pages/home'
+import NuevoDoc from './app/pages/nuevoDoc'
+import ActualizacionDoc from './app/pages/actualizacionDoc'
+import CambioNombreDoc from './app/pages/cambioNombreDoc'
+import EliminacionDoc from './app/pages/eliminacionDoc'
+import Procesos from './app/pages/procesos'
 import PersistentDrawerLeft from './AppDrawer';
 
 
