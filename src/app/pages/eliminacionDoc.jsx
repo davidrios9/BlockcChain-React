@@ -2,7 +2,10 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import { NavLink as ReactNav } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import Documentos from "../entities/Documentos"
+import ApiBack from "../utilities/dominios/ApiBack"
+import ServiceAdminDocs from "../servicies/ServiceAdminDocs"
 import {
   Grid,
   Typography,
@@ -37,7 +40,7 @@ function QuickSearchToolbar() {
   );
 }
 
-const archivos = [
+/*const archivos = [
   {
     id: 1,
     label: "Archivo 1.txt",
@@ -74,39 +77,58 @@ const archivos = [
     tipoDoc: "Otros",
     keyWords: "Cliente, Usuario, Nueva Cuenta",
   },
-];
-
-function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = randomId();
-    setRows((oldRows) => [
-      ...oldRows,
-      { id, label: "", tipoDoc: "", keyWords: "", isNew: true },
-    ]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-EditToolbar.propTypes = {
-  setRowModesModel: PropTypes.func.isRequired,
-  setRows: PropTypes.func.isRequired,
-};
-
+];*/
 const EliminacionDoc = (props) => {
-  const [rows, setRows] = React.useState(archivos);
-  const [rowModesModel, setRowModesModel] = React.useState({});
+  const [objDoc, setObjPro] = useState<Documentos>(new Documentos(0,"","","","",0,""));
+  const [arrayDocs, setArrayDocs] = useState<[]>([]);
+
+  // ********************************************************************************
+  // Eliminar Documento
+  // ********************************************************************************
+  const deleteDoc = async (codigoProducto) =>{
+    const urlDelete = ApiBack.DOCS_DELETE + "/"+codigoProducto;
+    const result = await ServiceAdminDocs.peticionDELETE(urlDelete);
+    console.log(result);
+    if (typeof result.eliminado === "undefined"){
+      console.log("No se pudo elominar el producto");
+    } else{
+      console.log(`Producto${objDoc.nombre}ha sido eliminado`)
+    }
+    obtenerDocumentos();
+  };
+  // ********************************************************************************
+  // Listar los documentos
+  // ********************************************************************************
+  const obtenerDocumentos = async()=>{
+    const result = await ServiceAdminDocs.peticionGET(
+      ApiBack.DOCS_LIST
+    );
+    setArrayDocs(result);
+  };
+  // ********************************************************************************
+  // Obtener un Documento
+  // ********************************************************************************
+  let {
+    nombre,
+    categoria,
+    keyWords,
+    dobleEnlace,
+    objeto,
+  } = useFormulario<Documentos>(new Documentos(0,"","","","",0,""));
+  const obtenerUnDoc = async ()=>{
+    const urlCargarUnDoc = ApiBack.DOCS_UNO +"/"+codigo;
+    const usuRecibido = await ServiceAdminDocs.peticionGET(urlCargarUnDoc);
+    if (usuRecibido){
+      
+    }
+  }
+  // *********************************************************************************
+  // Editar documentos
+  // *********************************************************************************
+
+
+  const [rows, setRows] = useState(archivos);
+  const [rowModesModel, setRowModesModel] = useState({});
   const { state } = useLocation();
     const { nombreProcesos, idProceso } = state; // Read values passed on state
   const procesos = [
