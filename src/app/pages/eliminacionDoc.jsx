@@ -40,7 +40,7 @@ function QuickSearchToolbar() {
   );
 }
 
-/*const archivos = [
+const archivos = [
   {
     id: 1,
     label: "Archivo 1.txt",
@@ -77,7 +77,7 @@ function QuickSearchToolbar() {
     tipoDoc: "Otros",
     keyWords: "Cliente, Usuario, Nueva Cuenta",
   },
-];*/
+];
 const EliminacionDoc = (props) => {
   const [objDoc, setObjPro] = useState<Documentos>(new Documentos(0,"","","","",0,""));
   const [arrayDocs, setArrayDocs] = useState<[]>([]);
@@ -108,7 +108,7 @@ const EliminacionDoc = (props) => {
   // ********************************************************************************
   // Obtener un Documento
   // ********************************************************************************
-  let {
+  /*let {
     nombre,
     categoria,
     keyWords,
@@ -121,7 +121,7 @@ const EliminacionDoc = (props) => {
     if (usuRecibido){
       
     }
-  }
+  }*/
   // *********************************************************************************
   // Editar documentos
   // *********************************************************************************
