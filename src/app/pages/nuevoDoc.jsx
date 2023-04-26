@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from "react";
-import { Grid, Typography, TextField, Autocomplete, Button } from "@mui/material";
+import { Grid, Typography, TextField, Autocomplete, Button, Divider } from "@mui/material";
 import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -43,7 +43,7 @@ const NuevoDoc = (props) => {
     const contextData = useContext(AppContext);
 
     const handleApplication = async () => {
-        if (lider !== 'Escoja un líder aprobador' && justificacion !== '' && files.length == fileAmount.length && tiposDoc.length == fileAmount.length && keyWords.length == fileAmount.length) {
+        if (lider !== 'Escoja un líder aprobador' && justificacion !== '' && files.length === fileAmount.length && tiposDoc.length === fileAmount.length && keyWords.length === fileAmount.length) {
 
             contextData.severity("success")
             contextData.text("Solicitud radicada");
@@ -61,13 +61,11 @@ const NuevoDoc = (props) => {
             data.append('reviewObservations', "N/A")
             data.append('leadObservations', 'Documentos importantes para fin de año')
             data.append('file', files[0])
-        
-            fetch('https://reqbin.com/echo/post/json', {
+
+            
+
+            fetch('https://644842ba50c25337443c1e84.mockapi.io/newDoc', {
                 method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
                 body: data
             })
                 .then(response => response.json())
@@ -119,13 +117,14 @@ const NuevoDoc = (props) => {
     }
 
     const keyWord = (pFile, fileId) => {
+        var pFiles = [...keyWords]
         if (pFile === '') {
-            var pFiles = [...keyWords]
+            
             pFiles.pop(keyWords.length - 1)
             setKeyWords(pFiles)
         }
         else {
-            var pFiles = [...keyWords]
+            
             pFiles[fileId - 1] = pFile
             setKeyWords(pFiles)
         }
@@ -172,11 +171,16 @@ const NuevoDoc = (props) => {
                     options={lideres}
                     sx={{ width: 300 }}
                     renderInput={(params) => <TextField {...params} label="Líder aprobador" />}
+                    isOptionEqualToValue={(option, value) => option.id === value.id}
                 />
             </Grid>
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={5} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', mt: 3 } }}>{lider}</Typography>
 
+            </Grid>
+
+            <Grid item xs={12} align='left'>
+                <Divider sx={{ borderBottomWidth: '0.3vh' }} />
             </Grid>
 
             {fileAmount.map((filesId) => (
@@ -190,6 +194,7 @@ const NuevoDoc = (props) => {
                             options={documentos}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Tipo de documento" />}
+                            isOptionEqualToValue={(option, value) => option.id === value.id}
                         />
                     </Grid>
 
@@ -232,6 +237,7 @@ const NuevoDoc = (props) => {
                     }}
                 />
             </Grid>
+
 
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={10} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
