@@ -50,21 +50,12 @@ const NuevoDoc = (props) => {
             contextData.show(true)
 
             const data = new FormData()
-            data.append('idRadicado', "HGA00001")
-            data.append('processCode', idProceso)
-            data.append('category', tiposDoc[0])
-            data.append('userLoggin', 'jdoe')
-            data.append('leadUserApprover', userLider)
-            data.append('userPublisher', 'JEPAJON')
-            data.append('keyWords', keyWords[0])
-            data.append('justificationRequest', justificacion)
-            data.append('reviewObservations', "N/A")
-            data.append('leadObservations', 'Documentos importantes para fin de año')
-            data.append('file', files[0])
+            data.append("body", "{\n	\"idRadicado\": \"HGA00001\",\n	\"processCode\": \""+idProceso+"\",\n	\"category\": \""+String(tiposDoc[0])+"\",\n	\"userLoggin\": \"jdoe\",\n	\"leadUserApprover\": \""+String(userLider)+"\",\n	\"userPublisher\":\"JEPAJON\",\n	\"keyWords\": \""+String(keyWords[0])+"\",\n	\"justificationRequest\": \""+String(justificacion)+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
+            data.append("documents", files[0])
 
             
 
-            fetch('https://644842ba50c25337443c1e84.mockapi.io/newDoc', {
+            fetch('http://localhost:3000/api/v1/document', {
                 method: 'POST',
                 body: data
             })

@@ -6,9 +6,8 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'idProceso', headerName: 'ID Proceso', flex: 1 },
-    { field: 'nombre', headerName: 'Nombre', flex: 1 },
+    { field: 'Codigo', headerName: 'ID Proceso', flex: 1 },
+    { field: 'Nombre', headerName: 'Nombre', flex: 1 },
 ];
 
 
@@ -34,7 +33,8 @@ const Procesos = (props) => {
     const [procesos, setProcesos] = React.useState([]);
 
     const gestionarDocumentos = () => {
-        navigate('solicitud', { state: { nombreProcesos: procesos[selected['0']-1]['nombre'], idProceso: procesos[selected['0']-1]['idProceso'] } });
+        console.log(selected)
+        navigate('solicitud', { state: { nombreProcesos: procesos[selected['0']-1]['Nombre'], idProceso: procesos[selected['0']-1]['Codigo'] } });
     }
 
     useEffect(() => {
@@ -131,6 +131,7 @@ const Procesos = (props) => {
                     checkboxSelection
                     pageSizeOptions={[5, 10, 25]}
                     slots={{ toolbar: QuickSearchToolbar }}
+          
                     onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
                 />

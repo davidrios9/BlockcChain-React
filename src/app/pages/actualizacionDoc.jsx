@@ -6,13 +6,13 @@ import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
 
 const columns = [
-    { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'nombre', headerName: 'categoria', flex: 1 },
-    { field: 'categoria', headerName: 'categoria', flex: 1 },
-    { field: 'keywords', headerName: 'keywords', flex: 1 },
-    { field: 'version', headerName: 'version', flex: 1 },
-    { field: 'idTracking', headerName: 'idTracking', flex: 1 },
-    { field: 'URL', headerName: 'URL', flex: 1 },
+    { field: 'IdDocument', headerName: 'ID', flex: 1 },
+    { field: 'DocumentName', headerName: 'nombre', flex: 1 },
+    { field: 'Category', headerName: 'categoria', flex: 1 },
+    { field: 'KeyWords', headerName: 'keywords', flex: 1 },
+    { field: 'Version', headerName: 'version', flex: 1 },
+    { field: 'Id', headerName: 'idTracking', flex: 1 },
+    { field: 'UrlS3Document', headerName: 'URL', flex: 1 },
 ];
 
 const documentos = [
@@ -52,8 +52,9 @@ const ActualizacionDoc = (props) => {
 
     useEffect(() => {
         async function logJSONData() {
-            const response = await fetch("https://644842ba50c25337443c1e84.mockapi.io/documentos");
+            const response = await fetch("http://localhost:3000/api/v1/document/"+idProceso);
             const jsonData = await response.json();
+            console.log(jsonData)
             setProcesos(jsonData);
         }
         logJSONData()
@@ -154,6 +155,7 @@ const ActualizacionDoc = (props) => {
                     checkboxSelection
                     selection
                     pageSizeOptions={[5, 10, 25]}
+                    getRowId={(row) =>  row.Id}
                     slots={{ toolbar: QuickSearchToolbar }}
                     onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
