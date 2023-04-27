@@ -62,7 +62,7 @@ class ServiceAdminDocs {
       return respuesta;
   }
   // Servicio para peticiones PUT
-  static async peticionPOST(urlServicio, miJSON){
+  static async peticionPUT(urlServicio, miJSON){
     const datosEnviar = {
         method: "PUT",
         body: JSON.stringify(miJSON),
