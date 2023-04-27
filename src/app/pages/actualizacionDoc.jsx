@@ -49,39 +49,51 @@ const ActualizacionDoc = (props) => {
     const { state } = useLocation();
     const { nombreProcesos, idProceso } = state; // Read values passed on state
     const contextData = useContext(AppContext);
-
+    
     useEffect(() => {
         async function logJSONData() {
             const response = await fetch("http://localhost:3000/api/v1/document/"+idProceso);
             const jsonData = await response.json();
             console.log(jsonData)
             setProcesos(jsonData);
-        }
+        };
         logJSONData()
     }, []);
 
     const handleApplication = async () => {
-        if (files.length === 1 && tiposDoc.length === 1 && keyWords.length === 1) {
+        console.log(selected)
+        console.log(procesos)
+        const [value] = procesos.filter(f => f.IdDocument===selected[0])
+        console.log(value)
+        console.log(files)
+        console.log(keyWords)
+        console.log(tiposDoc)
+        if (files ) {
 
             contextData.severity("success")
             contextData.text("Solicitud radicada");
             contextData.show(true)
 
+            // const data = new FormData()
+            // data.append('idRadicado', "HGA00001")
+            // data.append('processCode', idProceso)
+            // data.append('Category', Category)
+            // data.append('userLoggin', 'jdoe')
+            // data.append('userPublisher', 'JEPAJON')
+            // data.append('KeyWords', KeyWords)
+            // data.append('reviewObservations', "N/A")
+            // data.append('leadObservations', 'Documentos importantes para fin de año')
+            // data.append('file', files[0])
             const data = new FormData()
-            data.append('idRadicado', "HGA00001")
-            data.append('processCode', idProceso)
-            data.append('category', tiposDoc[0])
-            data.append('userLoggin', 'jdoe')
-            data.append('userPublisher', 'JEPAJON')
-            data.append('keyWords', keyWords[0])
-            data.append('reviewObservations', "N/A")
-            data.append('leadObservations', 'Documentos importantes para fin de año')
-            data.append('file', files[0])
+            data.append("body", "{\n	\"\idDocument\": \""+selected[0]+"\",\n	\"processCode\": \""+idProceso+"\",\n	\"Category\": \""+tiposDoc[-1]+"\",\n	\"KeyWords\": \""+keyWords[-1]+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
+            data.append("document", files[-1])
 
-            
+            const jsonPrueba = ("body", "{\n	\"\idDocument\": \""+selected[0]+"\",\n	\"processCode\": \""+idProceso+"\",\n	\"Category\": \""+tiposDoc[-1]+"\",\n	\"KeyWords\": \""+keyWords[-1]+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
 
-            fetch('https://644842ba50c25337443c1e84.mockapi.io/newDoc', {
-                method: 'POST',
+            console.log(jsonPrueba)
+
+            fetch('http://localhost:3000/api/v1/document/', {
+                method: 'PUT',
                 body: data
             })
                 .then(response => response.json())
@@ -89,11 +101,15 @@ const ActualizacionDoc = (props) => {
 
         }
         else {
+            console.log('Estoy en el else')
             contextData.severity("warning")
+            /*console.log(files)
+            console.log(tiposDoc)
+            console.log(keyWords)*/
             contextData.text("Llene todos los campos");
             contextData.show(true)
         }
-
+        //logJSONData();
     }
 
     const upload = (pFile, fileId) => {
@@ -155,9 +171,9 @@ const ActualizacionDoc = (props) => {
                     checkboxSelection
                     selection
                     pageSizeOptions={[5, 10, 25]}
-                    getRowId={(row) =>  row.Id}
+                    getRowId={(row) =>  row.IdDocument}
                     slots={{ toolbar: QuickSearchToolbar }}
-                    onRowSelectionModelChange={(ids) => { setSelected(ids); }}
+                    onRowSelectionModelChange={(ids) => { setSelected(ids);}}
 
                 />
             </Grid>

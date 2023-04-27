@@ -41,51 +41,6 @@ function QuickSearchToolbar() {
   );
 }
 
-<<<<<<< HEAD
-=======
-const archivos = [
-  {
-    id: 1,
-    label: "Archivo 1.txt",
-    tipoDoc: "BPM (editable bizagi)",
-    keyWords: "Leer, escribir, hablar, escuchar",
-  },
-  {
-    id: 2,
-    label: "Archivo 2.xslx",
-    tipoDoc: "Anexos",
-    keyWords: "cuenta ahorros, cuenta corriente, fondo de inversión",
-  },
-  {
-    id: 3,
-    label: "Archivo 3.docx",
-    tipoDoc: "Anexos",
-    keyWords: "Credito hipotecário, Tarjeta de crédito, Libranza",
-  },
-  {
-    id: 4,
-    label: "Archivo 4.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-  {
-    id: 5,
-    label: "Archivo 5.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-  {
-    id: 6,
-    label: "Archivo 6.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-];
-const EliminacionDoc = (props) => {
-  const [objDoc, setObjPro] = useState<Documentos>(new Documentos(0,"","","","",0,""));
-  const [arrayDocs, setArrayDocs] = useState<[]>([]);
->>>>>>> 5f18c3ecefb8dfa1df7a7b52554b8a8f023f97b2
-
 const EliminacionDoc = (props) => {
   const [objDoc, setObjPro] = useState(new Documentos(0,"","","","",0,""));
   const [arrayDocs, setArrayDocs] = useState([]);
@@ -118,7 +73,7 @@ const EliminacionDoc = (props) => {
   // ********************************************************************************
   // Obtener un Documento
   // ********************************************************************************
-  /*let {
+  let {
     nombre,
     categoria,
     keyWords,
@@ -139,11 +94,7 @@ const EliminacionDoc = (props) => {
         setTodoListo(true);
       }
     }
-<<<<<<< HEAD
-  };
-=======
-  }*/
->>>>>>> 5f18c3ecefb8dfa1df7a7b52554b8a8f023f97b2
+  }
   // *********************************************************************************
   // Actualizar documentos
   // *********************************************************************************
