@@ -5,10 +5,12 @@ import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { useNavigate } from 'react-router-dom';
 
 const NuevoDoc = (props) => {
 
     const { state } = useLocation();
+    const navigate = useNavigate();
     const { nombreProcesos, idProceso } = state; // Read values passed on state
 
 
@@ -45,22 +47,24 @@ const NuevoDoc = (props) => {
     const handleApplication = async () => {
         if (lider !== 'Escoja un líder aprobador' && justificacion !== '' && files.length === fileAmount.length && tiposDoc.length === fileAmount.length && keyWords.length === fileAmount.length) {
 
-            contextData.severity("success")
-            contextData.text("Solicitud radicada");
-            contextData.show(true)
 
             const data = new FormData()
-            data.append("body", "{\n	\"idRadicado\": \"HGA00001\",\n	\"processCode\": \""+idProceso+"\",\n	\"category\": \""+String(tiposDoc[0])+"\",\n	\"userLoggin\": \"jdoe\",\n	\"leadUserApprover\": \""+String(userLider)+"\",\n	\"userPublisher\":\"JEPAJON\",\n	\"keyWords\": \""+String(keyWords[0])+"\",\n	\"justificationRequest\": \""+String(justificacion)+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
+            data.append("body", "{\n	\"idRadicado\": \"HGA00001\",\n	\"processCode\": \"" + idProceso + "\",\n	\"category\": \"" + String(tiposDoc[0]) + "\",\n	\"userLoggin\": \"jdoe\",\n	\"leadUserApprover\": \"" + String(userLider) + "\",\n	\"userPublisher\":\"JEPAJON\",\n	\"keyWords\": \"" + String(keyWords[0]) + "\",\n	\"justificationRequest\": \"" + String(justificacion) + "\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
             data.append("documents", files[0])
 
-            
+
 
             fetch('http://localhost:3000/api/v1/document', {
                 method: 'POST',
                 body: data
             })
-                .then(response => response.json())
-                .then(response => console.log(JSON.stringify(response)))
+                .then(response => response.json(),
+                    contextData.severity("success"),
+                    contextData.text("Solicitud radicada"),
+                    contextData.show(true),
+                    navigate(-1)
+                )
+
 
         }
         else {
@@ -110,12 +114,12 @@ const NuevoDoc = (props) => {
     const keyWord = (pFile, fileId) => {
         var pFiles = [...keyWords]
         if (pFile === '') {
-            
+
             pFiles.pop(keyWords.length - 1)
             setKeyWords(pFiles)
         }
         else {
-            
+
             pFiles[fileId - 1] = pFile
             setKeyWords(pFiles)
         }
@@ -229,8 +233,15 @@ const NuevoDoc = (props) => {
                 />
             </Grid>
 
+            <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
+                <Button variant="contained" onClick={() => navigate(-1)} color="orange" sx={{ backgroundColor: 'FCDB25' }}>
+                    Retroceder
+                </Button>
+            </Grid>
 
-            <Grid display='flex' alignItems='center' justifyContent='center' item xs={10} sx={{ width: '95vw', height: '10vh', m: 1 }}>
+
+
+            <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                     Radicar solicitud para nuevos documentos
                 </Button>

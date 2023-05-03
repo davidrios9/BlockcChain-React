@@ -1,5 +1,5 @@
 import * as React from 'react';
-import  { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Typography, Grid, Button, Divider, Box } from "@mui/material"
 import { useNavigate } from 'react-router-dom';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -34,17 +34,21 @@ const Procesos = (props) => {
 
     const gestionarDocumentos = () => {
         console.log(selected)
-        navigate('solicitud', { state: { nombreProcesos: procesos[selected['0']-1]['Nombre'], idProceso: procesos[selected['0']-1]['Codigo'] } });
+        navigate('solicitud', { state: { nombreProcesos: procesos[selected['0']]['Nombre'], idProceso: procesos[selected['0']]['Codigo'] } });
     }
 
     useEffect(() => {
         async function logJSONData() {
-            const response = await fetch("https://644842ba50c25337443c1e84.mockapi.io/procesos");
+            const response = await fetch("http://localhost:3000/api/v1/process");
             const jsonData = await response.json();
+            var i = 0
+            for (i = 0; i < jsonData.length; i++) {
+                jsonData[i]["id"] = i;
+            }
             setProcesos(jsonData);
-          }
-          logJSONData()
-      },[]);
+        }
+        logJSONData()
+    }, []);
 
     return (
         <Grid container rowSpacing={1} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', minHeight: '80vh', p: 1 }}>
@@ -97,13 +101,13 @@ const Procesos = (props) => {
                 <Divider sx={{ borderBottomWidth: '0.3vh' }} />
             </Grid>
 
-            <Grid item xs={3} align='left' display={selected.length === 1 ? 'flex' : 'none'}>
+            <Grid item xs={3} align='left' display={selected.length === 1 ? 'block' : 'none'}>
                 <Button variant="contained" onClick={() => gestionarDocumentos()} color="orange" sx={{ fontSize: '13px' }}>
                     Gestionar documentos
                 </Button>
             </Grid>
 
-            <Grid item xs={3} align='left' display={selected.length === 1 ? 'flex' : 'none'}>
+            <Grid item xs={3} align='left' display={selected.length === 1 ? 'block' : 'none'}>
                 <Button variant="contained" onClick={null} color="orange" sx={{ fontSize: '13px' }}>
                     Ver / Editar
                 </Button>
@@ -122,7 +126,7 @@ const Procesos = (props) => {
             </Grid>
 
 
-            <Grid item xs={12} align='left' maxHeight={'60vh'}  maxWidth={'99vw!important'}>
+            <Grid item xs={12} align='left' maxHeight={'60vh'} maxWidth={'99vw!important'}>
                 <DataGrid
                     rows={procesos}
                     columns={columns}
@@ -131,13 +135,12 @@ const Procesos = (props) => {
                     checkboxSelection
                     pageSizeOptions={[5, 10, 25]}
                     slots={{ toolbar: QuickSearchToolbar }}
-          
                     onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
                 />
             </Grid>
 
-            
+
         </Grid>
 
 
