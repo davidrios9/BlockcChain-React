@@ -1,11 +1,12 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { NavLink as ReactNav } from "react-router-dom";
+import { NavLink as ReactNav, useParams } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import { useContext, useState } from "react";
 import Documentos from "../entities/Documentos"
 import ApiBack from "../utilities/dominios/ApiBack"
 import ServiceAdminDocs from "../servicies/ServiceAdminDocs"
+import { useFormulario } from "../utilities/hooks/useFormulario";
 import {
   Grid,
   Typography,
@@ -40,48 +41,12 @@ function QuickSearchToolbar() {
   );
 }
 
-const archivos = [
-  {
-    id: 1,
-    label: "Archivo 1.txt",
-    tipoDoc: "BPM (editable bizagi)",
-    keyWords: "Leer, escribir, hablar, escuchar",
-  },
-  {
-    id: 2,
-    label: "Archivo 2.xslx",
-    tipoDoc: "Anexos",
-    keyWords: "cuenta ahorros, cuenta corriente, fondo de inversión",
-  },
-  {
-    id: 3,
-    label: "Archivo 3.docx",
-    tipoDoc: "Anexos",
-    keyWords: "Credito hipotecário, Tarjeta de crédito, Libranza",
-  },
-  {
-    id: 4,
-    label: "Archivo 4.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-  {
-    id: 5,
-    label: "Archivo 5.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-  {
-    id: 6,
-    label: "Archivo 6.rar",
-    tipoDoc: "Otros",
-    keyWords: "Cliente, Usuario, Nueva Cuenta",
-  },
-];
 const EliminacionDoc = (props) => {
-  const [objDoc, setObjPro] = useState<Documentos>(new Documentos(0,"","","","",0,""));
-  const [arrayDocs, setArrayDocs] = useState<[]>([]);
-
+  const [objDoc, setObjPro] = useState(new Documentos(0,"","","","",0,""));
+  const [arrayDocs, setArrayDocs] = useState([]);
+  const [todoListo, setTodoListo] = useState(false);
+  const [enProceso, setEnProceso] = useState(false);
+  let {codigo} = useParams();
   // ********************************************************************************
   // Eliminar Documento
   // ********************************************************************************
@@ -108,26 +73,45 @@ const EliminacionDoc = (props) => {
   // ********************************************************************************
   // Obtener un Documento
   // ********************************************************************************
-  /*let {
+  let {
     nombre,
     categoria,
     keyWords,
+    version,
+    idTracking,
+    url,
     dobleEnlace,
     objeto,
   } = useFormulario<Documentos>(new Documentos(0,"","","","",0,""));
   const obtenerUnDoc = async ()=>{
     const urlCargarUnDoc = ApiBack.DOCS_UNO +"/"+codigo;
-    const usuRecibido = await ServiceAdminDocs.peticionGET(urlCargarUnDoc);
-    if (usuRecibido){
-      
+    const docRecibido = await ServiceAdminDocs.peticionGET(urlCargarUnDoc);
+    if (docRecibido){
+      objeto.nombre = docRecibido.nombre;
+      objeto.categoria = docRecibido.categoria;
+      objeto.keyWords = docRecibido.keyWords;
+      if (docRecibido){
+        setTodoListo(true);
+      }
     }
-  }*/
+  }
   // *********************************************************************************
-  // Editar documentos
+  // Actualizar documentos
   // *********************************************************************************
+  const enviarInfo = async () => {
+    const urlUpdate = ApiBack.DOCS_UPDATE +"/"+ codigo;
+    const docUpdate = new Documentos(objeto.id, objeto.nombre, objeto.categoria,objeto.keyWords,objeto.version, objeto.idTracking,objeto.url);
+    const result = await ServiceAdminDocs.peticionPUT(urlUpdate, docUpdate);
+    if (result.nuevo){
+      setEnProceso(false);
+      console.log("Se ha actualizado correctamente");
+    } else {
+      console.log("No se ha podido actualizar")
+    }
+  } 
 
 
-  const [rows, setRows] = useState(archivos);
+  const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   const { state } = useLocation();
     const { nombreProcesos, idProceso } = state; // Read values passed on state
@@ -186,12 +170,13 @@ const EliminacionDoc = (props) => {
   };
 
   const handleSaveClick = (id) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+    enviarInfo();
+    //setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
   const handleDeleteClick = (id) => () => {
     //setShow(true);
-    setRows(rows.filter((row) => row.id !== id));
+    deleteDoc(id);
   };
 
   const handleCancelClick = (id) => () => {
@@ -217,28 +202,13 @@ const EliminacionDoc = (props) => {
   };
 
   const columns = [
-    { field: "id", headerName: "id", flex: 0.1 },
-    {
-      field: "label",
-      headerName: "label",
-      flex: 0.2,
-      width: 150,
-      editable: true,
-    },
-    {
-      field: "tipoDoc",
-      headerName: "tipoDoc",
-      flex: 0.2,
-      width: 100,
-      editable: true,
-    },
-    {
-      field: "keyWords",
-      headerName: "keyWords",
-      flex: 0.3,
-      width: 200,
-      editable: true,
-    },
+    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'nombre', headerName: 'categoria', flex: 1 },
+    { field: 'categoria', headerName: 'categoria', flex: 1 },
+    { field: 'keywords', headerName: 'keywords', flex: 1 },
+    { field: 'version', headerName: 'version', flex: 1 },
+    { field: 'idTracking', headerName: 'idTracking', flex: 1 },
+    { field: 'URL', headerName: 'URL', flex: 1 },
     {
       field: "actions",
       type: "actions",
@@ -283,7 +253,9 @@ const EliminacionDoc = (props) => {
       },
     },
   ];
-
+  React.useEffect(() =>{
+    obtenerDocumentos();
+  },[]);
   return (
     <>
       <Grid

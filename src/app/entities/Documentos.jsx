@@ -1,12 +1,14 @@
 class Documentos {
-  constructor(id, nombre, categoria, keyWords, version, idTracking, url) {
-    this.id = id;
-    this.nombre = nombre;
-    this.categoria = categoria;
-    this.keyWords = keyWords;
-    this.version = version;
-    this.idTracking = idTracking;
-    this.url = url;
+  constructor(idRadicado, processCode, category, userLoggin, leadUserApprover, userPublisher, keyWords,justificationRequest,leadObservations,file) {
+    this.idRadicado = idRadicado;
+    this.processCode = processCode;
+    this.category = category;
+    this.userLoggin = userLoggin;
+    this.leadUserApprover = leadUserApprover;
+    this.userPublisher = userPublisher;
+    this.justificationRequest = justificationRequest;
+    this.leadObservations = leadObservations;
+    this.file = file;
   }
 }
 export default Documentos;
