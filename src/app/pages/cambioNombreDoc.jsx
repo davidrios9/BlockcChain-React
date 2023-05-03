@@ -36,8 +36,8 @@ const CambioNombreDoc = (props) => {
 
   const columns = [
     { field: 'IdDocument', headerName: 'ID', flex: 1 },
-    { field: 'DocumentName', headerName: 'nombre', flex: 1 },
-    { field: 'KeyWords', headerName: 'keywords', flex: 1 },
+    { field: 'DocumentName', headerName: 'Nombre', flex: 1 },
+    { field: 'KeyWords', headerName: 'Keywords', flex: 1 },
     {
       field: 'actions',
       type: 'actions',
@@ -153,16 +153,7 @@ const CambioNombreDoc = (props) => {
                     Retroceder
                 </Button>
             </Grid>
-
-            <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
-                    Sustituir documento
-                </Button>
-            </Grid>
-
             
-
-
         </Grid>
     
   );

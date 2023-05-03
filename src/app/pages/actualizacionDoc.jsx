@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 
 const columns = [
     { field: 'IdDocument', headerName: 'ID', flex: 1 },
-    { field: 'DocumentName', headerName: 'nombre', flex: 1 },
-    { field: 'Category', headerName: 'categoria', flex: 1 },
-    { field: 'KeyWords', headerName: 'keywords', flex: 1 },
-    { field: 'Version', headerName: 'version', flex: 1 },
-    { field: 'Id', headerName: 'idTracking', flex: 1 },
+    { field: 'DocumentName', headerName: 'Nombre', flex: 1 },
+    { field: 'Category', headerName: 'Categoría', flex: 1 },
+    { field: 'KeyWords', headerName: 'Keywords', flex: 1 },
+    { field: 'Version', headerName: 'Versión', flex: 1 },
+    { field: 'Id', headerName: 'Tracking ID', flex: 1 },
     { field: 'UrlS3Document', headerName: 'URL', flex: 1 },
-];
+  ];
 
 const documentos = [
     { label: 'BPM (editable bizagi)' },
