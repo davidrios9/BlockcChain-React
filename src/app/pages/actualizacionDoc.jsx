@@ -4,6 +4,7 @@ import { Grid, Typography, Box, Autocomplete, TextField, Button } from "@mui/mat
 import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
     { field: 'IdDocument', headerName: 'ID', flex: 1 },
@@ -41,106 +42,58 @@ function QuickSearchToolbar() {
 
 const ActualizacionDoc = (props) => {
 
+    const navigate = useNavigate();
     const [procesos, setProcesos] = React.useState([]);
-    const [files, setFiles] = React.useState([])
-    const [tiposDoc, setTiposDoc] = React.useState([])
-    const [keyWords, setKeyWords] = React.useState([])
+    const [files, setFiles] = React.useState("")
+    const [tiposDoc, setTiposDoc] = React.useState("")
+    const [keyWords, setKeyWords] = React.useState("")
     const [selected, setSelected] = React.useState([]);
     const { state } = useLocation();
     const { nombreProcesos, idProceso } = state; // Read values passed on state
     const contextData = useContext(AppContext);
-    
+
     useEffect(() => {
         async function logJSONData() {
-            const response = await fetch("http://localhost:3000/api/v1/document/"+idProceso);
+            const response = await fetch("http://localhost:3000/api/v1/document/" + idProceso);
             const jsonData = await response.json();
-            console.log(jsonData)
             setProcesos(jsonData);
         };
         logJSONData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+   
+
     const handleApplication = async () => {
-        console.log(selected)
-        console.log(procesos)
-        const [value] = procesos.filter(f => f.IdDocument===selected[0])
-        console.log(value)
-        console.log(files)
-        console.log(keyWords)
-        console.log(tiposDoc)
-        if (files ) {
+        if (files !== "" && tiposDoc !== "" && keyWords !== "" && selected.length === 1) {
 
-            contextData.severity("success")
-            contextData.text("Solicitud radicada");
-            contextData.show(true)
-
-            // const data = new FormData()
-            // data.append('idRadicado', "HGA00001")
-            // data.append('processCode', idProceso)
-            // data.append('Category', Category)
-            // data.append('userLoggin', 'jdoe')
-            // data.append('userPublisher', 'JEPAJON')
-            // data.append('KeyWords', KeyWords)
-            // data.append('reviewObservations', "N/A")
-            // data.append('leadObservations', 'Documentos importantes para fin de año')
-            // data.append('file', files[0])
             const data = new FormData()
-            data.append("body", "{\n	\"\idDocument\": \""+selected[0]+"\",\n	\"processCode\": \""+idProceso+"\",\n	\"Category\": \""+tiposDoc[-1]+"\",\n	\"KeyWords\": \""+keyWords[-1]+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
-            data.append("document", files[-1])
+            data.append("body", "{\n	\"idDocument\": \"" + selected[0] + "\",\n	\"processCode\": \"" + idProceso + "\",\n	\"Category\": \"" + tiposDoc + "\",\n	\"KeyWords\": \"" + keyWords + "\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
+            data.append("document", files)
 
-            const jsonPrueba = ("body", "{\n	\"\idDocument\": \""+selected[0]+"\",\n	\"processCode\": \""+idProceso+"\",\n	\"Category\": \""+tiposDoc[-1]+"\",\n	\"KeyWords\": \""+keyWords[-1]+"\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
-
-            console.log(jsonPrueba)
 
             fetch('http://localhost:3000/api/v1/document/', {
                 method: 'PUT',
                 body: data
             })
-                .then(response => response.json())
-                .then(response => console.log(JSON.stringify(response)))
-
+                .then(response => response.json(),
+                    contextData.severity("success"),
+                    contextData.text("Solicitud radicada"),
+                    contextData.show(true),
+                    navigate(-1)
+                )
         }
         else {
-            console.log('Estoy en el else')
             contextData.severity("warning")
-            /*console.log(files)
-            console.log(tiposDoc)
-            console.log(keyWords)*/
             contextData.text("Llene todos los campos");
             contextData.show(true)
-        }
-        //logJSONData();
-    }
-
-    const upload = (pFile, fileId) => {
-        var pFiles = [...files]
-        pFiles[fileId - 1] = pFile
-        setFiles(pFiles)
-    }
-    
-    const tipoDoc = (pFile, fileId) => {
-        var pFiles = [...tiposDoc]
-        pFiles[fileId - 1] = pFile
-        setTiposDoc(pFiles)
-    }
-    
-    const keyWord = (pFile, fileId) => {
-        var pFiles = [...keyWords]
-        if (pFile === '') {
-            
-            pFiles.pop(keyWords.length - 1)
-            setKeyWords(pFiles)
-        }
-        else {
-            
-            pFiles[fileId - 1] = pFile
-            setKeyWords(pFiles)
+           
         }
     }
 
     return (
         <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
-            <Grid item xs={12}> <Typography sx={{ mt: 3, typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Actualización de documento</Typography> </Grid>
+            <Grid item xs={12}> <Typography sx={{ mt: 3, typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Sustitución de documentos</Typography> </Grid>
 
             <Grid item xs={2} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1, paddingTop: '0!important' }}>
                 <Typography sx={{ typography: { xs: 'p', sm: 'p', md: 'h5', lg: 'h5', color: 'white' } }}>Usuario radicador:</Typography>
@@ -168,12 +121,11 @@ const ActualizacionDoc = (props) => {
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
-                    checkboxSelection
                     selection
                     pageSizeOptions={[5, 10, 25]}
-                    getRowId={(row) =>  row.IdDocument}
                     slots={{ toolbar: QuickSearchToolbar }}
-                    onRowSelectionModelChange={(ids) => { setSelected(ids);}}
+                    getRowId={(row) => row.IdDocument}
+                    onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
                 />
             </Grid>
@@ -181,7 +133,7 @@ const ActualizacionDoc = (props) => {
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Autocomplete
                     onChange={(event, newValue) => {
-                        tipoDoc(newValue['label'], 0)
+                        setTiposDoc(newValue['label'])
                     }}
                     disablePortal
                     options={documentos}
@@ -194,22 +146,30 @@ const ActualizacionDoc = (props) => {
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <TextField
                     label="Palabras clave"
-                    onChange={(e) => keyWord(e.target.value, 0)}>
+                    onChange={(e) => setKeyWords(e.target.value)}>
 
                 </TextField>
             </Grid>
 
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Button variant="contained" color="green" sx={{ backgroundColor: 'FCDB25' }} >
-                    <input type="file" onChange={(e) => upload(e.target.files[0], 0)} />
+                    <input type="file" onChange={(e) => setFiles(e.target.files[0])} />
                 </Button>
             </Grid>
 
-            <Grid display='flex' alignItems='center' justifyContent='center' item xs={10} sx={{ width: '95vw', height: '10vh', m: 1 }}>
+            <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
+                <Button variant="contained" onClick={() => navigate(-1)} color="orange" sx={{ backgroundColor: 'FCDB25' }}>
+                    Retroceder
+                </Button>
+            </Grid>
+
+            <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
                 <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                     Sustituir documento
                 </Button>
             </Grid>
+
+            
 
 
         </Grid>

@@ -1,4 +1,4 @@
-import {useState, ChangeEvent} from "react";
+import {useState} from "react";
 export const useFormulario = (objetoInicial) =>{
     const [objeto, setObjeto]=useState(objetoInicial);
     function dobleEnlace({ target }) {
