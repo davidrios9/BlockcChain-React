@@ -7,13 +7,13 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const columns = [
-    { field: 'IdDocument', headerName: 'ID', flex: 1 },
-    { field: 'DocumentName', headerName: 'Nombre', flex: 1 },
-    { field: 'Category', headerName: 'Categoría', flex: 1 },
-    { field: 'KeyWords', headerName: 'Keywords', flex: 1 },
-    { field: 'Version', headerName: 'Versión', flex: 1 },
-    { field: 'Id', headerName: 'Tracking ID', flex: 1 },
-    { field: 'UrlS3Document', headerName: 'URL', flex: 1 },
+    { field: 'idDocument', headerName: 'ID', flex: 1 },
+    { field: 'documentName', headerName: 'Nombre', flex: 1 },
+    { field: 'category', headerName: 'Categoría', flex: 1 },
+    { field: 'keyWords', headerName: 'Keywords', flex: 1 },
+    { field: 'version', headerName: 'Versión', flex: 1 },
+    { field: 'id', headerName: 'Tracking ID', flex: 1 },
+    { field: 'urlS3Document', headerName: 'URL', flex: 1 },
   ];
 
 const documentos = [
@@ -49,26 +49,43 @@ const ActualizacionDoc = (props) => {
     const [keyWords, setKeyWords] = React.useState("")
     const [selected, setSelected] = React.useState([]);
     const { state } = useLocation();
-    const { nombreProcesos, idProceso } = state; // Read values passed on state
+    const [nombreProcesos, setNombreProcesos] =  React.useState("")
+    const [idProceso, setIdProceso] =  React.useState("")
     const contextData = useContext(AppContext);
 
     useEffect(() => {
         async function logJSONData() {
-            const response = await fetch("http://localhost:3000/api/v1/document/" + idProceso);
+            const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
             const jsonData = await response.json();
+            var i = 0
+            for (i = 0; i < jsonData.length; i++) {
+                jsonData[i]["Id"] = i;
+            }
             setProcesos(jsonData);
         };
+
+        if(state === null) navigate('../POC-Procesos')
+        else {
+        setIdProceso(state['idProceso'])
+        setNombreProcesos(state['nombreProcesos'])
         logJSONData()
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
    
 
     const handleApplication = async () => {
-        if (files !== "" && tiposDoc !== "" && keyWords !== "" && selected.length === 1) {
-
+        if ((files !== "" || tiposDoc !== "" || keyWords !== "") && selected.length === 1) {
+            
+            var sel = procesos[selected[0]]['idDocument']
+            var cat = procesos[selected[0]]['category']
+            var key = procesos[selected[0]]['keyWords']
+            if(tiposDoc !== "" ) cat = tiposDoc
+            if(keyWords !== "" ) key = keyWords
+            
             const data = new FormData()
-            data.append("body", "{\n	\"idDocument\": \"" + selected[0] + "\",\n	\"processCode\": \"" + idProceso + "\",\n	\"Category\": \"" + tiposDoc + "\",\n	\"KeyWords\": \"" + keyWords + "\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
+            data.append("body", "{\n	\"idDocument\": \"" + sel  + "\",\n	\"Category\": \"" + cat + "\",\n	\"KeyWords\": \"" + key + "\",\n	\"UserPublisher\": \"jDoe\"\n}\n");
             data.append("document", files)
 
 
@@ -123,8 +140,8 @@ const ActualizacionDoc = (props) => {
                     rowsPerPageOptions={[5]}
                     selection
                     pageSizeOptions={[5, 10, 25]}
+                    getRowId={(row) => row.Id}
                     slots={{ toolbar: QuickSearchToolbar }}
-                    getRowId={(row) => row.IdDocument}
                     onRowSelectionModelChange={(ids) => { setSelected(ids); }}
 
                 />
