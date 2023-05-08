@@ -7,13 +7,13 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const columns = [
-  { field: 'IdDocument', headerName: 'ID', flex: 1 },
-  { field: 'DocumentName', headerName: 'Nombre', flex: 1 },
-  { field: 'Category', headerName: 'Categoría', flex: 1 },
-  { field: 'KeyWords', headerName: 'Keywords', flex: 1 },
-  { field: 'Version', headerName: 'Versión', flex: 1 },
-  { field: 'Id', headerName: 'Tracking ID', flex: 1 },
-  { field: 'UrlS3Document', headerName: 'URL', flex: 1 },
+  { field: 'idDocument', headerName: 'ID', flex: 1 },
+  { field: 'documentName', headerName: 'Nombre', flex: 1 },
+  { field: 'category', headerName: 'Categoría', flex: 1 },
+  { field: 'keyWords', headerName: 'Keywords', flex: 1 },
+  { field: 'version', headerName: 'Versión', flex: 1 },
+  { field: 'id', headerName: 'Tracking ID', flex: 1 },
+  { field: 'urlS3Document', headerName: 'URL', flex: 1 },
 ];
 
 function QuickSearchToolbar() {
@@ -86,7 +86,7 @@ const EliminacionDoc = (props) => {
           selection
           pageSizeOptions={[5, 10, 25]}
           slots={{ toolbar: QuickSearchToolbar }}
-          getRowId={(row) => row.Id}
+          getRowId={(row) => row.id}
           onRowSelectionModelChange={(ids) => { handleSelection(ids); }}
 
         />
@@ -102,19 +102,19 @@ const EliminacionDoc = (props) => {
               <Card sx={{ minWidth: 275, m:1 }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
-                     {'Versión: '+ item.Version}
+                     {'Versión: '+ item.version}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Nombre: '+ item.DocumentName}
+                     {'Nombre: '+ item.documentName}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Categoría: '+ item.Category}
+                     {'Categoría: '+ item.category}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Palabras clave: '+ item.KeyWords}
+                     {'Palabras clave: '+ item.keyWords}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'URL: '+ item.UrlS3Document}
+                     {'URL: '+ item.urlS3Document}
                   </Typography>
                  
                 </CardContent>
