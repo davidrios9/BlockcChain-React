@@ -43,9 +43,10 @@ class ServiceAdminDocs {
       return respuesta;
   }
   // Servicio para peticiones DELETE
-  static async peticionDELETE(urlServicio){
+  static async peticionDELETE(urlServicio, miJSON){
     const datosEnviar = {
         method: "DELETE",
+        body: JSON.stringify(miJSON),
         headers: {
             "Content-Type": "application/json; charset=UTF-8",
         },
