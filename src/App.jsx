@@ -5,9 +5,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Solicitud from './app/pages/solicitud'
 import Home from './app/pages/home'
 import NuevoDoc from './app/pages/nuevoDoc'
-import ActualizacionDoc from './app/pages/actualizacionDoc'
-import CambioNombreDoc from './app/pages/cambioNombreDoc'
-import EliminacionDoc from './app/pages/eliminacionDoc'
+import ActualizacionDoc from './app/pages/edicionDoc'
+import CambioNombreDoc from './app/pages/eliminacionDoc'
+import EliminacionDoc from './app/pages/historicoDoc'
 import Procesos from './app/pages/procesos'
 import PersistentDrawerLeft from './AppDrawer';
 
