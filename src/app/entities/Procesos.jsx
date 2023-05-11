@@ -1,7 +1,7 @@
 class Procesos {
     constructor(id, nombre) {
-      this.id = id;
-      this.nombre = nombre;
+      this.idDocument = id;
+      this.documentName = nombre;
     }
   }
   export default Procesos;
