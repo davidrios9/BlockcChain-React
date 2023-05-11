@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useContext } from 'react';
-import { Grid, Typography, Box, Autocomplete, TextField, Button } from "@mui/material"
+import { Grid, Typography, Box, Autocomplete, TextField, Button, Link } from "@mui/material"
 import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
@@ -13,8 +13,12 @@ const columns = [
     { field: 'keyWords', headerName: 'Keywords', flex: 1 },
     { field: 'version', headerName: 'Versión', flex: 1 },
     { field: 'id', headerName: 'Tracking ID', flex: 1 },
-    { field: 'urlS3Document', headerName: 'URL', flex: 1 },
-  ];
+    {
+        field: 'urlS3Document', headerName: 'URL', flex: 1, renderCell: (params) => (
+            <Link href={params.value}>{params.value}</Link>
+        )
+    },
+];
 
 const documentos = [
     { label: 'BPM (editable bizagi)' },
@@ -49,8 +53,8 @@ const ActualizacionDoc = (props) => {
     const [keyWords, setKeyWords] = React.useState("")
     const [selected, setSelected] = React.useState([]);
     const { state } = useLocation();
-    const [nombreProcesos, setNombreProcesos] =  React.useState("")
-    const [idProceso, setIdProceso] =  React.useState("")
+    const [nombreProcesos, setNombreProcesos] = React.useState("")
+    const [idProceso, setIdProceso] = React.useState("")
     const contextData = useContext(AppContext);
 
     useEffect(() => {
@@ -64,28 +68,28 @@ const ActualizacionDoc = (props) => {
             setProcesos(jsonData);
         };
 
-        if(state === null) navigate('../POC-Procesos')
+        if (state === null) navigate('../POC-Procesos')
         else {
-        setIdProceso(state['idProceso'])
-        setNombreProcesos(state['nombreProcesos'])
-        logJSONData()
+            setIdProceso(state['idProceso'])
+            setNombreProcesos(state['nombreProcesos'])
+            logJSONData()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-   
+
 
     const handleApplication = async () => {
         if ((files !== "" || tiposDoc !== "" || keyWords !== "") && selected.length === 1) {
-            
+
             var sel = procesos[selected[0]]['idDocument']
             var cat = procesos[selected[0]]['category']
             var key = procesos[selected[0]]['keyWords']
-            if(tiposDoc !== "" ) cat = tiposDoc
-            if(keyWords !== "" ) key = keyWords
-            
+            if (tiposDoc !== "") cat = tiposDoc
+            if (keyWords !== "") key = keyWords
+
             const data = new FormData()
-            data.append("body", "{\n	\"idDocument\": \"" + sel  + "\",\n	\"Category\": \"" + cat + "\",\n	\"KeyWords\": \"" + key + "\",\n	\"UserPublisher\": \"jDoe\"\n}\n");
+            data.append("body", "{\n	\"idDocument\": \"" + sel + "\",\n	\"Category\": \"" + cat + "\",\n	\"KeyWords\": \"" + key + "\",\n	\"UserPublisher\": \"jDoe\"\n}\n");
             data.append("document", files)
 
 
@@ -97,15 +101,26 @@ const ActualizacionDoc = (props) => {
                     contextData.severity("success"),
                     contextData.text("Solicitud radicada"),
                     contextData.show(true),
-                    navigate(-1)
+                    obtenerDocs()
                 )
         }
         else {
             contextData.severity("warning")
             contextData.text("Llene todos los campos");
             contextData.show(true)
-           
+
         }
+    }
+
+    const obtenerDocs = async () => {
+        const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
+        const jsonData = await response.json();
+        var i = 0
+        for (i = 0; i < jsonData.length; i++) {
+            jsonData[i]["Id"] = i;
+        }
+        setProcesos(jsonData);
+        console.log(jsonData)
     }
 
     return (
@@ -169,24 +184,24 @@ const ActualizacionDoc = (props) => {
             </Grid>
 
             <Grid item display='flex' alignItems='center' justifyContent='center' xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" color="green" sx={{ backgroundColor: 'FCDB25' }} >
+                <Button variant="contained" color="blue" sx={{ backgroundColor: 'FCDB25' }} >
                     <input type="file" onChange={(e) => setFiles(e.target.files[0])} />
                 </Button>
             </Grid>
 
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" onClick={() => navigate(-1)} color="orange" sx={{ backgroundColor: 'FCDB25' }}>
+                <Button variant="contained" onClick={() => navigate(-1)} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                     Retroceder
                 </Button>
             </Grid>
 
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
-                    Sustituir documento
+                <Button variant="contained" onClick={() => handleApplication()} color="pink" sx={{ backgroundColor: 'FCDB25' }}>
+                    Confirmar edición
                 </Button>
             </Grid>
 
-            
+
 
 
         </Grid>

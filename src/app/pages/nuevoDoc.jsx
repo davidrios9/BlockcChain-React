@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Grid, Typography, TextField, Autocomplete, Button, Divider } from "@mui/material";
 import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
@@ -11,7 +11,8 @@ const NuevoDoc = (props) => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const { nombreProcesos, idProceso } = state; // Read values passed on state
+    const [nombreProcesos, setNombreProcesos] =  React.useState("")
+    const [idProceso, setIdProceso] =  React.useState("")
 
 
     const lideres = [
@@ -43,6 +44,17 @@ const NuevoDoc = (props) => {
     const [tiposDoc, setTiposDoc] = React.useState([])
     const [keyWords, setKeyWords] = React.useState([])
     const contextData = useContext(AppContext);
+
+    useEffect(() => {
+       
+    
+        if(state === null) navigate('../POC-Procesos')
+        else {
+        setIdProceso(state['idProceso'])
+        setNombreProcesos(state['nombreProcesos'])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
     const handleApplication = async () => {
         if (lider !== 'Escoja un líder aprobador' && justificacion !== '' && files.length === fileAmount.length && tiposDoc.length === fileAmount.length && keyWords.length === fileAmount.length) {
@@ -202,7 +214,7 @@ const NuevoDoc = (props) => {
                     </Grid>
 
                     <Grid item display='flex' alignItems='center' justifyContent='center' xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                        <Button variant="contained" color="green" sx={{ backgroundColor: 'FCDB25' }} >
+                        <Button variant="contained" color="blue" sx={{ backgroundColor: 'FCDB25' }} >
                             <input type="file" onChange={(e) => upload(e.target.files[0], filesId)} />
                         </Button>
                     </Grid>
@@ -234,7 +246,7 @@ const NuevoDoc = (props) => {
             </Grid>
 
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" onClick={() => navigate(-1)} color="orange" sx={{ backgroundColor: 'FCDB25' }}>
+                <Button variant="contained" onClick={() => navigate(-1)} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                     Retroceder
                 </Button>
             </Grid>
@@ -242,7 +254,7 @@ const NuevoDoc = (props) => {
 
 
             <Grid display='flex' alignItems='center' justifyContent='center' item xs={3} sx={{ width: '95vw', height: '10vh', m: 1 }}>
-                <Button variant="contained" onClick={() => handleApplication()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
+                <Button variant="contained" onClick={() => handleApplication()} color="green" sx={{ backgroundColor: 'FCDB25' }}>
                     Radicar solicitud para nuevos documentos
                 </Button>
             </Grid>
