@@ -3,13 +3,12 @@ import { createTheme, ThemeProvider, Snackbar, Alert  } from '@mui/material';
 import { useState } from "react";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Solicitud from './app/pages/solicitud'
-import Home from './app/pages/home'
 import NuevoDoc from './app/pages/nuevoDoc'
 import ActualizacionDoc from './app/pages/edicionDoc'
 import CambioNombreDoc from './app/pages/eliminacionDoc'
 import EliminacionDoc from './app/pages/historicoDoc'
 import Procesos from './app/pages/procesos'
-import PersistentDrawerLeft from './AppDrawer';
+import {AppBarTop} from './AppBar';
 
 
 export const AppContext = React.createContext(null)
@@ -39,15 +38,14 @@ export function App() {
     <AppContext.Provider value={alert}>
       <ThemeProvider theme={theme}>
         <div className="App">
-          <PersistentDrawerLeft />
+          <AppBarTop />
             <Routes>
-              <Route exact path="POC-Procesos/" element={<Home />} />
-              <Route exact path="POC-Procesos/procesos" element={<Procesos/>} />
-              <Route exact path="POC-Procesos/procesos/solicitud" element={<Solicitud />} />
-              <Route exact path="POC-Procesos/procesos/solicitud/nuevoDoc" element={<NuevoDoc />} />
-              <Route exact path="POC-Procesos/procesos/solicitud/actualizacionDoc" element={<ActualizacionDoc />} />
-              <Route exact path="POC-Procesos/procesos/solicitud/cambioNombreDoc" element={<CambioNombreDoc />} />
-              <Route exact path="POC-Procesos/procesos/solicitud/eliminacionDoc" element={<EliminacionDoc />} />
+              <Route exact path="POC-Procesos/" element={<Procesos />} />
+              <Route exact path="POC-Procesos/solicitud" element={<Solicitud />} />
+              <Route exact path="POC-Procesos/solicitud/nuevoDoc" element={<NuevoDoc />} />
+              <Route exact path="POC-Procesos/solicitud/actualizacionDoc" element={<ActualizacionDoc />} />
+              <Route exact path="POC-Procesos/solicitud/cambioNombreDoc" element={<CambioNombreDoc />} />
+              <Route exact path="POC-Procesos/solicitud/eliminacionDoc" element={<EliminacionDoc />} />
               <Route exact path="*" element={<Navigate to='POC-Procesos/' />} />
             </Routes>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
