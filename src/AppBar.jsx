@@ -31,6 +31,12 @@ export function AppBarTop() {
         setAnchorElNav(null);
     };
 
+    const login = () => {
+        sessionStorage.setItem("token", "tokenTest");
+        window.location.reload(false);
+      };
+    
+
 
     return (
         <AppBar position="static" sx={{ borderRadius: 1 }}>
@@ -126,13 +132,13 @@ export function AppBarTop() {
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                        <Button variant="contained" id="walletButton" onClick={null} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
+                        <Button variant="contained" id="walletButton" onClick={()=>login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                             Login
                         </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
-                        <Button variant="contained" id="walletButton" onClick={null} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
+                        <Button variant="contained" id="walletButton" onClick={()=>login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
                             Login
                         </Button>
                     </Box>

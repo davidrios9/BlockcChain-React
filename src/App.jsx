@@ -7,7 +7,7 @@ import NuevoDoc from './app/pages/nuevoDoc'
 import ActualizacionDoc from './app/pages/edicionDoc'
 import CambioNombreDoc from './app/pages/eliminacionDoc'
 import EliminacionDoc from './app/pages/historicoDoc'
-import Procesos from './app/pages/procesos'
+import Home from './app/pages/home'
 import {AppBarTop} from './AppBar';
 
 
@@ -40,7 +40,7 @@ export function App() {
         <div className="App">
           <AppBarTop />
             <Routes>
-              <Route exact path="POC-Procesos/" element={<Procesos />} />
+              <Route exact path="POC-Procesos/" element={<Home />} />
               <Route exact path="POC-Procesos/solicitud" element={<Solicitud />} />
               <Route exact path="POC-Procesos/solicitud/nuevoDoc" element={<NuevoDoc />} />
               <Route exact path="POC-Procesos/solicitud/actualizacionDoc" element={<ActualizacionDoc />} />
