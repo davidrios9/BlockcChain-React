@@ -2,11 +2,12 @@ import * as React from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import BancolombiaIcon from './/assets/logo.svg'
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 //import { AppContext } from './App';
 import { useNavigate } from 'react-router-dom';
 import { NavLink as ReactNav } from 'react-router-dom'
-
+import { PeticionGET } from './app/servicies/ServiceAdminDocs.jsx'
+import { AppContext } from '../src/App';
 
 export function AppBarTop() {
 
@@ -23,6 +24,7 @@ export function AppBarTop() {
         setAnchorElNav(event.currentTarget);
     };
 
+    const contextData = useContext(AppContext);
 
     const handleCloseNavMenu = (page) => {
         page = page.toLowerCase();
@@ -31,11 +33,22 @@ export function AppBarTop() {
         setAnchorElNav(null);
     };
 
-    const login = () => {
-        sessionStorage.setItem("token", "tokenTest");
-        window.location.reload(false);
-      };
-    
+    const login = async () => {
+        const respuesta = await PeticionGET('/api/v1/auth/dsamboni')
+        console.log(respuesta)
+        if (respuesta.msg != null) {
+            contextData.severity("error")
+            contextData.text(respuesta.msg)
+            contextData.show(true)
+        }
+        else {
+            sessionStorage.setItem("user", "dsamboni");
+            sessionStorage.setItem("token", respuesta.access_token);
+            window.location.reload(false);
+        }
+
+    };
+
 
 
     return (
@@ -132,14 +145,14 @@ export function AppBarTop() {
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-                        <Button variant="contained" id="walletButton" onClick={()=>login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
-                            Login
+                        <Button variant="contained" id="walletButton" onClick={() => login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
+                            {sessionStorage.getItem("user") === null ? "Login" : sessionStorage.getItem("user")}
                         </Button>
                     </Box>
 
                     <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
-                        <Button variant="contained" id="walletButton" onClick={()=>login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
-                            Login
+                        <Button variant="contained" id="walletButton" onClick={() => login()} color="yellow" sx={{ backgroundColor: 'FCDB25' }}>
+                            {sessionStorage.getItem("user") === null ? "Login" : sessionStorage.getItem("user")}
                         </Button>
                     </Box>
                 </Toolbar>

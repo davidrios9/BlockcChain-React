@@ -146,7 +146,7 @@ const Procesos = (props) => {
     ];
 
     return (
-        <Grid container direction={{ xs: 'column', md: 'row' }} justifyContent="center" textAlign="center" maxWidth="xl" sx={{ bgcolor: '#cfe8fc', borderRadius: 1, mt: 3, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
+        <Grid container direction={{ xs: 'column', md: 'row' }} justifyContent="center" textAlign="center" maxWidth="xl" sx={{ bgcolor: '#cfe8fc', borderRadius: 1, mt: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
 
 
             <Grid item xs={12} m={3} maxWidth={'95vw!important'} >

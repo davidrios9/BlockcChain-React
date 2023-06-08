@@ -16,7 +16,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 import ApiBack from "../utilities/dominios/ApiBack.jsx";
-import ServiceAdminDocs from "../servicies/ServiceAdminDocs.jsx";
+import {PeticionDELETE, PeticionGET} from "../servicies/ServiceAdminDocs.jsx";
 import Procesos from "../entities/Procesos.jsx";
 
 function QuickSearchToolbar() {
@@ -51,7 +51,7 @@ const CambioNombreDoc = (props) => {
     data.idDocument = selected[0]
             //data.append("body", "{\n	\"idDocument\": \"" + sel  + "\",\n" );
     const urlBorrar = ApiBack.DOCS_DELETE;
-    const resultado = await ServiceAdminDocs.peticionDELETE(urlBorrar, data);
+    const resultado = await PeticionDELETE(urlBorrar, data);
     contextData.severity("success")
     contextData.text(resultado.msg)
     contextData.show(true)
@@ -60,7 +60,7 @@ const CambioNombreDoc = (props) => {
   };
   // **************************************************************************
   const obtenerDocs = async () => {
-    const resultado = await ServiceAdminDocs.peticionGET(
+    const resultado = await PeticionGET(
       ApiBack.DOCS_LIST+"/"+idProceso
     );
     setProcesos(resultado);

@@ -61,6 +61,7 @@ const ActualizacionDoc = (props) => {
         async function logJSONData() {
             const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
             const jsonData = await response.json();
+            console.log(state['idProceso'])
             var i = 0
             for (i = 0; i < jsonData.length; i++) {
                 jsonData[i]["Id"] = i;
@@ -124,7 +125,7 @@ const ActualizacionDoc = (props) => {
     }
 
     return (
-        <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
+        <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', mt: 1, borderRadius: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
             <Grid item xs={12}> <Typography sx={{ mt: 3, typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Sustitución de documentos</Typography> </Grid>
 
             <Grid item xs={2} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1, paddingTop: '0!important' }}>
