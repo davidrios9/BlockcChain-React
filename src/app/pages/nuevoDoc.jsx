@@ -68,6 +68,9 @@ const NuevoDoc = (props) => {
 
             fetch('http://localhost:3000/api/v1/document', {
                 method: 'POST',
+                headers: new Headers({
+                    'Authorization': 'Bearer ' + sessionStorage.getItem("token"), 
+                }), 
                 body: data
             })
                 .then(response => response.json(),
