@@ -111,6 +111,7 @@ const CambioNombreDoc = (props) => {
         minHeight: "80vh",
         borderRadius: 1,
         background: "linear-gradient(to bottom, #F8F8F8, #FFFFFF)",
+        mt:1
       }}
     >
       <Grid item xs={12}>

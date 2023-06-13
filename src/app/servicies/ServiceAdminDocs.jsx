@@ -13,6 +13,7 @@ export const PeticionGET =  (urlServicio) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
+      'Authorization': 'Bearer ' + sessionStorage.getItem("token"),
     },
   };
   const url = ApiBack.URL + urlServicio;
@@ -29,12 +30,12 @@ export const PeticionGET =  (urlServicio) => {
 }
 
 // Servicio para peticiones POST
-export const PeticionPOST = async (urlServicio, miJSON) => {
+export const PeticionPOST = async (urlServicio, pBody) => {
   const datosEnviar = {
     method: "POST",
-    body: JSON.stringify(miJSON),
+    body: pBody,
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
+      'Authorization': 'Bearer ' + sessionStorage.getItem("token"),
     },
   };
   const url = ApiBack.URL + urlServicio;
@@ -55,6 +56,7 @@ export const PeticionDELETE = async (urlServicio, miJSON) => {
     body: JSON.stringify(miJSON),
     headers: {
       "Content-Type": "application/json; charset=UTF-8",
+      'Authorization': 'Bearer ' + sessionStorage.getItem("token"),
     },
   };
   const url = ApiBack.URL + urlServicio;
@@ -69,12 +71,12 @@ export const PeticionDELETE = async (urlServicio, miJSON) => {
   return respuesta;
 }
 // Servicio para peticiones PUT
-export const PeticionPUT = async (urlServicio, miJSON) => {
+export const PeticionPUT = async (urlServicio, pBody) => {
   const datosEnviar = {
     method: "PUT",
-    body: JSON.stringify(miJSON),
+    body: pBody,
     headers: {
-      "Content-Type": "application/json; charset=UTF-8",
+      'Authorization': 'Bearer ' + sessionStorage.getItem("token"),
     },
   };
   const url = ApiBack.URL + urlServicio;

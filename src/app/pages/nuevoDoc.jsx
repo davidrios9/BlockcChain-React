@@ -6,13 +6,14 @@ import { useLocation } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useNavigate } from 'react-router-dom';
+import { PeticionPOST } from '../servicies/ServiceAdminDocs.jsx';
 
 const NuevoDoc = (props) => {
 
     const { state } = useLocation();
     const navigate = useNavigate();
-    const [nombreProcesos, setNombreProcesos] =  React.useState("")
-    const [idProceso, setIdProceso] =  React.useState("")
+    const [nombreProcesos, setNombreProcesos] = React.useState("")
+    const [idProceso, setIdProceso] = React.useState("")
 
 
     const lideres = [
@@ -46,41 +47,47 @@ const NuevoDoc = (props) => {
     const contextData = useContext(AppContext);
 
     useEffect(() => {
-       
-    
-        if(state === null) navigate('../POC-Procesos')
+
+
+        if (state === null) navigate('../POC-Procesos')
         else {
-        setIdProceso(state['idProceso'])
-        setNombreProcesos(state['nombreProcesos'])
+            setIdProceso(state['idProceso'])
+            setNombreProcesos(state['nombreProcesos'])
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
+    }, []);
 
     const handleApplication = async () => {
         if (lider !== 'Escoja un líder aprobador' && justificacion !== '' && files.length === fileAmount.length && tiposDoc.length === fileAmount.length && keyWords.length === fileAmount.length) {
-
-
             const data = new FormData()
-            data.append("body", "{\n	\"idRadicado\": \"HGA00001\",\n	\"processCode\": \"" + idProceso + "\",\n	\"category\": \"" + String(tiposDoc[0]) + "\",\n	\"userLoggin\": \"jdoe\",\n	\"leadUserApprover\": \"" + String(userLider) + "\",\n	\"userPublisher\":\"JEPAJON\",\n	\"keyWords\": \"" + String(keyWords[0]) + "\",\n	\"justificationRequest\": \"" + String(justificacion) + "\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"Documentos importantes para fin de año\"\n}\n");
-            data.append("documents", files[0])
+            var body = ''
+            for (var i = 0; i < fileAmount.length; i++) {
+                body += "{\n	\"documentName\": \"" + files[i].name + "\",\n	\"processCode\": \"" + idProceso + "\",\n	\"category\": \"" + String(tiposDoc[i]) + "\",\n	\"userLoggin\": \"jdoe\",\n	\"leadUserApprover\": \"" + String(userLider) + "\",\n	\"userPublisher\":\"JEPAJON\",\n	\"keyWords\": \"" + String(keyWords[i]) + "\",\n	\"justificationRequest\": \"" + String(justificacion) + "\",\n	\"reviewObservations\": \"N/A\",\n	\"leadObservations\": \"N/A\"\n}"
+                if (i < fileAmount.length - 1) {
+                    body += ',\n'
+                }
+                else {
+                    body += '\n'
+                }
+                data.append("documents", files[i])
+            }
 
 
-
-            fetch('http://localhost:3000/api/v1/document', {
-                method: 'POST',
-                headers: new Headers({
-                    'Authorization': 'Bearer ' + sessionStorage.getItem("token"), 
-                }), 
-                body: data
-            })
-                .then(response => response.json(),
-                    contextData.severity("success"),
-                    contextData.text("Solicitud radicada"),
-                    contextData.show(true),
-                    navigate(-1)
-                )
+            data.append("body", "[" + body + "]");
 
 
+            const respuesta = await PeticionPOST('/api/v1/document', data)
+            if (respuesta.msg != null) {
+                contextData.severity("error")
+                contextData.text(respuesta.msg)
+                contextData.show(true)
+            }
+            else {
+                contextData.severity("success")
+                contextData.text(respuesta.Message)
+                contextData.show(true)
+                navigate(-1)
+            }
         }
         else {
             contextData.severity("warning")
@@ -101,17 +108,24 @@ const NuevoDoc = (props) => {
         fAmount.pop(fAmount[fAmount.length - 1])
         setFileAmount(fAmount)
 
-        var pFiles = [...files]
-        pFiles.pop(files.length - 1)
-        setFiles(pFiles)
+        if (files.length > fAmount[fAmount.length - 1]) {
+            var pFiles = [...files]
+            pFiles.pop(files.length - 1)
+            setFiles(pFiles)
+        }
 
-        pFiles = [...tiposDoc]
-        pFiles.pop(tiposDoc.length - 1)
-        setTiposDoc(pFiles)
+        if (tiposDoc.length > fAmount[fAmount.length - 1]) {
+            pFiles = [...tiposDoc]
+            pFiles.pop(tiposDoc.length - 1)
+            setTiposDoc(pFiles)
+        }
 
-        pFiles = [...keyWords]
-        pFiles.pop(keyWords.length - 1)
-        setKeyWords(pFiles)
+        if (keyWords.length > fAmount[fAmount.length - 1]) {
+            pFiles = [...keyWords]
+            pFiles.pop(keyWords.length - 1)
+            setKeyWords(pFiles)
+        }
+
     }
 
     const upload = (pFile, fileId) => {
