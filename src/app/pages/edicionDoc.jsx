@@ -5,6 +5,7 @@ import { DataGrid, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { AppContext } from '../../App.jsx';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { PeticionPUT, PeticionGET } from '../servicies/ServiceAdminDocs.jsx';
 
 const columns = [
     { field: 'idDocument', headerName: 'ID', flex: 1 },
@@ -59,9 +60,7 @@ const ActualizacionDoc = (props) => {
 
     useEffect(() => {
         async function logJSONData() {
-            const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
-            const jsonData = await response.json();
-            console.log(state['idProceso'])
+            const jsonData = await PeticionGET('/api/v1/document/' + state['idProceso']);
             var i = 0
             for (i = 0; i < jsonData.length; i++) {
                 jsonData[i]["Id"] = i;
@@ -91,19 +90,22 @@ const ActualizacionDoc = (props) => {
 
             const data = new FormData()
             data.append("body", "{\n	\"idDocument\": \"" + sel + "\",\n	\"Category\": \"" + cat + "\",\n	\"KeyWords\": \"" + key + "\",\n	\"UserPublisher\": \"jDoe\"\n}\n");
-            data.append("document", files)
+            if (files !== "") data.append("document", files)
 
-
-            fetch('http://localhost:3000/api/v1/document/', {
-                method: 'PUT',
-                body: data
-            })
-                .then(response => response.json(),
-                    contextData.severity("success"),
-                    contextData.text("Solicitud radicada"),
-                    contextData.show(true),
-                    obtenerDocs()
-                )
+            
+            const respuesta = await PeticionPUT('/api/v1/document', data)
+            console.log(respuesta)
+            if (respuesta.status !== 200) {
+                contextData.severity("error")
+                contextData.text(respuesta.msg)
+                contextData.show(true)
+            }
+            else {
+                contextData.severity("success")
+                contextData.text(respuesta.msg)
+                contextData.show(true)
+                obtenerDocs()
+            }
         }
         else {
             contextData.severity("warning")
@@ -114,14 +116,12 @@ const ActualizacionDoc = (props) => {
     }
 
     const obtenerDocs = async () => {
-        const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
-        const jsonData = await response.json();
+        const jsonData = await PeticionGET('/api/v1/document/' + state['idProceso']);
         var i = 0
         for (i = 0; i < jsonData.length; i++) {
             jsonData[i]["Id"] = i;
         }
         setProcesos(jsonData);
-        console.log(jsonData)
     }
 
     return (

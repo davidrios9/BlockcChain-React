@@ -4,6 +4,7 @@ import { Grid, Typography, Button, Box, Dialog, Card, CardContent, Link } from "
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { PeticionGET } from '../servicies/ServiceAdminDocs.jsx';
 
 const columns = [
   { field: 'idDocument', headerName: 'ID', flex: 1 },
@@ -12,8 +13,10 @@ const columns = [
   { field: 'keyWords', headerName: 'Keywords', flex: 1 },
   { field: 'version', headerName: 'Versión', flex: 1 },
   { field: 'id', headerName: 'Tracking ID', flex: 1 },
-  { field: 'urlS3Document', headerName: 'URL', flex: 1, renderCell: (params) => (
-    <Link href={params.value}>{params.value}</Link>) },
+  {
+    field: 'urlS3Document', headerName: 'URL', flex: 1, renderCell: (params) => (
+      <Link href={params.value}>{params.value}</Link>)
+  },
 ];
 
 function QuickSearchToolbar() {
@@ -38,38 +41,36 @@ const EliminacionDoc = (props) => {
   const [dataSelected, setDataSelected] = React.useState([]);
   const navigate = useNavigate();
   const { state } = useLocation();
-  const [nombreProcesos, setNombreProcesos] =  React.useState("")
-  const [idProceso, setIdProceso] =  React.useState("")
+  const [nombreProcesos, setNombreProcesos] = React.useState("")
+  const [idProceso, setIdProceso] = React.useState("")
 
 
   useEffect(() => {
     async function logJSONData() {
-      const response = await fetch("http://localhost:3000/api/v1/document/" + state['idProceso']);
-      const jsonData = await response.json();
+      const jsonData = await PeticionGET('/api/v1/document/' + state['idProceso']);
       setProcesos(jsonData);
     };
-    if(state === null) navigate('../POC-Procesos')
+    if (state === null) navigate('../POC-Procesos')
     else {
-    setIdProceso(state['idProceso'])
-    setNombreProcesos(state['nombreProcesos'])
-    logJSONData()
+      setIdProceso(state['idProceso'])
+      setNombreProcesos(state['nombreProcesos'])
+      logJSONData()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSelection = async (pSelected) => {
     setOpen(true)
-    const response = await fetch("http://localhost:3000/api/v1/document/traking/" + pSelected);
-    const jsonData = await response.json();
+    const jsonData = await PeticionGET("/api/v1/document/traking/" + pSelected);
     jsonData.reverse()
     setDataSelected(jsonData);
     console.log(jsonData)
-    
+
   }
 
 
   return (
-    <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
+    <Grid container rowSpacing={1} padding={0} justifyContent="center" align='center' maxWidth="xl" direction={{ xs: 'column', md: 'row' }} sx={{ display: 'flex', bgcolor: '#cfe8fc', minHeight: '80vh', borderRadius: 1, mt:1, background: 'linear-gradient(to bottom, #F8F8F8, #FFFFFF)' }}>
       <Grid item xs={12}> <Typography sx={{ mt: 3, typography: { xs: 'h5', sm: 'h5', md: 'h2', lg: 'h2' } }}>Histórico de cambios en documentos</Typography> </Grid>
 
       <Grid item xs={2} sx={{ width: '95vw', height: '10vh', backgroundColor: '#2A2625', borderRadius: 1, m: 1, paddingTop: '0!important' }}>
@@ -101,27 +102,27 @@ const EliminacionDoc = (props) => {
         open={open}
         onClose={() => setOpen(false)}
       >
-        <Grid container alignItems={'center'} justifyContent={'center'} overflow= 'auto' maxWidth={{sm:'90vw',md:'50vw',lg:'40vw'}} >
+        <Grid container alignItems={'center'} justifyContent={'center'} overflow='auto' maxWidth={{ sm: '90vw', md: '50vw', lg: '40vw' }} >
           {dataSelected.map((item) =>
             <Grid item key={item.Version}>
-              <Card sx={{ minWidth: 275, m:1 }}>
+              <Card sx={{ minWidth: 275, m: 1 }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
-                     {'Versión: '+ item.version}
+                    {'Versión: ' + item.version}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Nombre: '+ item.documentName}
+                    {'Nombre: ' + item.documentName}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Categoría: '+ item.category}
+                    {'Categoría: ' + item.category}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'Palabras clave: '+ item.keyWords}
+                    {'Palabras clave: ' + item.keyWords}
                   </Typography>
                   <Typography variant="body2" component="div">
-                     {'URL: '+ item.urlS3Document}
+                    {'URL: ' + item.urlS3Document}
                   </Typography>
-                 
+
                 </CardContent>
               </Card>
             </Grid>
